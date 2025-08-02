@@ -1,5 +1,5 @@
 import { accountsTable } from '../schema';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { Account } from '@core/entities/account-entity';
 import { AccountRepository } from '@core/repositories/account-repository';
 import { AccountMapper } from './mappers/account-mapper';
@@ -53,16 +53,31 @@ export class AccountDrizzleRepository implements AccountRepository {
     return AccountMapper.toEntity(result[0]);
   }
 
-  async update(account: Account): Promise<void> {
+  async updateAccountInfo(
+    account: Omit<Account, 'balance' | 'createdAt' | 'updatedAt'>,
+  ): Promise<void> {
     await this.db
       .update(accountsTable)
       .set({
         name: account.name,
+        apiKey: account.apiKey,
         email: account.email,
-        balance: account.balance,
         updatedAt: new Date(),
       })
       .where(eq(accountsTable.id, parseInt(account.id)));
+  }
+
+  async updateBalance(account: Pick<Account, 'id' | 'balance'>): Promise<void> {
+    await this.db.transaction(async (tx) => {
+      await tx.execute(
+        sql`SELECT balance FROM accounts WHERE id = ${account.id} FOR UPDATE`,
+      );
+
+      await tx
+        .update(accountsTable)
+        .set({ balance: account.balance })
+        .where(eq(accountsTable.id, parseInt(account.id)));
+    });
   }
 
   async delete(id: string): Promise<void> {

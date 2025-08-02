@@ -3,9 +3,11 @@ import { FindByIdAccountUseCase } from '@core/use-cases/account/find-by-id';
 import { CreateAccountUseCase } from '@core/use-cases/account/create';
 import { FindByApiKeyAccountUseCase } from '@core/use-cases/account/find-by-api-key';
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Patch } from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create';
 import { Account } from '@core/entities/account-entity';
+import { UpdateBalanceDto } from './dtos/update-balance';
+import { UpdateBalanceUseCase } from '@core/use-cases/account/update-balance';
 
 @Controller('account')
 export class AccountController {
@@ -14,6 +16,7 @@ export class AccountController {
     private readonly findAllAccountsUseCase: FindAllAccountsUseCase,
     private readonly createAccountUseCase: CreateAccountUseCase,
     private readonly findByApiKeyAccountUseCase: FindByApiKeyAccountUseCase,
+    private readonly updateBalanceUseCase: UpdateBalanceUseCase,
   ) {}
 
   @Get(':id')
@@ -36,5 +39,13 @@ export class AccountController {
   @Post()
   async createAccount(@Body() data: CreateAccountDto) {
     return await this.createAccountUseCase.execute(data);
+  }
+
+  @Patch(':id/balance')
+  async updateBalance(@Param('id') id: string, @Body() data: UpdateBalanceDto) {
+    return await this.updateBalanceUseCase.execute({
+      id,
+      balance: data.balance,
+    });
   }
 }

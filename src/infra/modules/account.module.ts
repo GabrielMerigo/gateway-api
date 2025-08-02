@@ -6,6 +6,7 @@ import { FindAllAccountsUseCase } from '@core/use-cases/account/find-all';
 import { CreateAccountUseCase } from '@core/use-cases/account/create';
 import { FindByApiKeyAccountUseCase } from '@core/use-cases/account/find-by-api-key';
 import { ExceptionsModule } from './exceptions.module';
+import { UpdateBalanceUseCase } from '@core/use-cases/account/update-balance';
 
 @Module({
   imports: [DatabaseModule, ExceptionsModule],
@@ -15,6 +16,7 @@ import { ExceptionsModule } from './exceptions.module';
     FindAllAccountsUseCase,
     CreateAccountUseCase,
     FindByApiKeyAccountUseCase,
+    UpdateBalanceUseCase,
   ],
 })
 export class AccountModule {}
