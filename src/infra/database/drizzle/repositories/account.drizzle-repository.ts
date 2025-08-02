@@ -37,13 +37,20 @@ export class AccountDrizzleRepository implements AccountRepository {
     return result ? AccountMapper.toEntity(result) : null;
   }
 
-  async create(account: Account): Promise<void> {
-    await this.db.insert(accountsTable).values({
-      name: account.name,
-      email: account.email,
-      apiKey: account.apiKey,
-      balance: account.balance,
-    });
+  async create(
+    account: Omit<Account, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Account> {
+    const result = await this.db
+      .insert(accountsTable)
+      .values({
+        name: account.name,
+        email: account.email,
+        apiKey: account.apiKey,
+        balance: account.balance,
+      })
+      .returning();
+
+    return AccountMapper.toEntity(result[0]);
   }
 
   async update(account: Account): Promise<void> {
