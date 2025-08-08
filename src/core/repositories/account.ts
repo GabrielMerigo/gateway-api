@@ -1,4 +1,4 @@
-import { Account } from '../entities/account-entity';
+import { Account } from '../entities/account';
 
 export abstract class AccountRepository {
   abstract create(

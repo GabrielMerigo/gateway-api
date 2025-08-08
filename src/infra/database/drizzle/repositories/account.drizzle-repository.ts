@@ -1,7 +1,7 @@
 import { accountsTable } from '../schema';
 import { eq, sql } from 'drizzle-orm';
-import { Account } from '@core/entities/account-entity';
-import { AccountRepository } from '@core/repositories/account-repository';
+import { Account } from '@core/entities/account';
+import { AccountRepository } from '@core/repositories/account';
 import { AccountMapper } from './mappers/account-mapper';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import * as schema from '@infra/database/drizzle/schema';
@@ -18,7 +18,7 @@ export class AccountDrizzleRepository implements AccountRepository {
 
   async findById(id: string): Promise<Account | null> {
     const result = await this.db.query.accountsTable.findFirst({
-      where: eq(accountsTable.id, parseInt(id)),
+      where: eq(accountsTable.id, id),
     });
 
     return result ? AccountMapper.toEntity(result) : null;
@@ -64,7 +64,7 @@ export class AccountDrizzleRepository implements AccountRepository {
         email: account.email,
         updatedAt: new Date(),
       })
-      .where(eq(accountsTable.id, parseInt(account.id)));
+      .where(eq(accountsTable.id, account.id));
   }
 
   async updateBalance(account: Pick<Account, 'id' | 'balance'>): Promise<void> {
@@ -76,13 +76,11 @@ export class AccountDrizzleRepository implements AccountRepository {
       await tx
         .update(accountsTable)
         .set({ balance: account.balance })
-        .where(eq(accountsTable.id, parseInt(account.id)));
+        .where(eq(accountsTable.id, account.id));
     });
   }
 
   async delete(id: string): Promise<void> {
-    await this.db
-      .delete(accountsTable)
-      .where(eq(accountsTable.id, parseInt(id)));
+    await this.db.delete(accountsTable).where(eq(accountsTable.id, id));
   }
 }

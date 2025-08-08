@@ -1,4 +1,4 @@
-import { AccountRepository } from '@core/repositories/account-repository';
+import { AccountRepository } from '@core/repositories/account';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

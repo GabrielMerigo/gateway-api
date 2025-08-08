@@ -13,7 +13,7 @@ import {
   Headers,
 } from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create';
-import { Account } from '@core/entities/account-entity';
+import { Account } from '@core/entities/account';
 import { UpdateBalanceDto } from './dtos/update-balance';
 import { UpdateBalanceUseCase } from '@core/use-cases/account/update-balance';
 

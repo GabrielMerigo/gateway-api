@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseService } from '@infra/database/database.service';
 import { AccountDrizzleRepository } from '@infra/database/drizzle/repositories/account.drizzle-repository';
-import { AccountRepository } from '@core/repositories/account-repository';
+import { AccountRepository } from '@core/repositories/account';
 
 @Module({
   providers: [

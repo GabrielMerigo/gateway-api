@@ -1,4 +1,4 @@
-import { Account } from '@core/entities/account-entity';
+import { Account } from '@core/entities/account';
 import { accountsTable } from '../../schema';
 
 export class AccountMapper {

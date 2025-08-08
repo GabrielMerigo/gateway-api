@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AccountRepository } from '@core/repositories/account-repository';
-import { Account } from '@core/entities/account-entity';
+import { AccountRepository } from '@core/repositories/account';
+import { Account } from '@core/entities/account';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
 import { ExceptionsAdapter } from '@core/adapters';
 
