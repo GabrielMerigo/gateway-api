@@ -11,11 +11,18 @@ export class FindByApiKeyAccountUseCase {
     private readonly exception: ExceptionsAdapter,
   ) {}
 
-  async execute(apiKey: string): Promise<Account | null> {
+  async execute(apiKey: string): Promise<Account | void> {
+    if (!apiKey) {
+      return this.exception.badRequest({
+        message: ErrorMessages[ExceptionCode.NEED_TO_PASS_API_KEY],
+        code: ExceptionCode.NEED_TO_PASS_API_KEY,
+      });
+    }
+
     const account = await this.accountRepository.findByApiKey(apiKey);
 
     if (!account) {
-      this.exception.notFound({
+      return this.exception.notFound({
         message: ErrorMessages[ExceptionCode.NOT_FOUND],
         code: ExceptionCode.NOT_FOUND,
       });

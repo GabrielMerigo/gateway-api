@@ -15,14 +15,14 @@ export class UpdateBalanceUseCase {
     const accountExists = await this.accountRepository.findById(account.id);
 
     if (!accountExists) {
-      this.exception.notFound({
+      return this.exception.notFound({
         message: ErrorMessages[ExceptionCode.NOT_FOUND],
         code: ExceptionCode.NOT_FOUND,
       });
     }
 
     if (account.balance < 0) {
-      this.exception.badRequest({
+      return this.exception.badRequest({
         message: ErrorMessages[ExceptionCode.INVALID_BALANCE],
         code: ExceptionCode.INVALID_BALANCE,
       });

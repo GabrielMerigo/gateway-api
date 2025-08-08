@@ -3,7 +3,15 @@ import { FindByIdAccountUseCase } from '@core/use-cases/account/find-by-id';
 import { CreateAccountUseCase } from '@core/use-cases/account/create';
 import { FindByApiKeyAccountUseCase } from '@core/use-cases/account/find-by-api-key';
 
-import { Body, Controller, Get, Param, Post, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Patch,
+  Headers,
+} from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create';
 import { Account } from '@core/entities/account-entity';
 import { UpdateBalanceDto } from './dtos/update-balance';
@@ -24,10 +32,10 @@ export class AccountController {
     return await this.findByIdAccountUseCase.execute(id);
   }
 
-  @Get('api-key/:apiKey')
+  @Get()
   async getAccountByApiKey(
-    @Param('apiKey') apiKey: string,
-  ): Promise<Account | null> {
+    @Headers('api-key') apiKey: string,
+  ): Promise<Account | void> {
     return await this.findByApiKeyAccountUseCase.execute(apiKey);
   }
 
