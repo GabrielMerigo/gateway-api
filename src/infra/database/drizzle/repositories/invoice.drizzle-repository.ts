@@ -21,6 +21,13 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
     this.db = this.databaseService.getConnection();
   }
 
+  async updateStatus(id: string, status: InvoiceStatus): Promise<void> {
+    await this.db
+      .update(invoicesTable)
+      .set({ status })
+      .where(eq(invoicesTable.id, id));
+  }
+
   async create(
     invoice: Omit<Invoice, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<void> {

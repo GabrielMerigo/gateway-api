@@ -1,4 +1,4 @@
-import { Invoice } from '../entities/invoice';
+import { Invoice, InvoiceStatus } from '../entities/invoice';
 
 export abstract class InvoiceRepository {
   abstract create(
@@ -10,4 +10,5 @@ export abstract class InvoiceRepository {
     invoice: Omit<Invoice, 'createdAt' | 'updatedAt'>,
   ): Promise<void>;
   abstract delete(id: string): Promise<void>;
+  abstract updateStatus(id: string, status: InvoiceStatus): Promise<void>;
 }
