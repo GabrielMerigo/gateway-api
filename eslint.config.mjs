@@ -1,8 +1,8 @@
-// @ts-check
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import customRules from './tools/eslint-rules/index.mjs';
 
 export default tseslint.config(
   {
@@ -25,10 +25,16 @@ export default tseslint.config(
     },
   },
   {
+    plugins: {
+      'local-rules': customRules,
+    },
+  },
+  {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      'local-rules/usecase-injectable': 'error',
     },
   },
 );

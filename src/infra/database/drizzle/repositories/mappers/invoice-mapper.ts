@@ -1,4 +1,5 @@
 import { Invoice } from '@core/entities/invoice';
+import { invoicesTable } from '../../schema';
 
 export class InvoiceMapper {
   static toEntity(invoice: Invoice): Invoice {
@@ -9,9 +10,16 @@ export class InvoiceMapper {
       status: invoice.status,
       description: invoice.description,
       paymentType: invoice.paymentType,
-      cardLastDigits: invoice.cardLastDigits,
       createdAt: invoice.createdAt,
       updatedAt: invoice.updatedAt,
+      card: {
+        number: invoice.card.number,
+        cvv: invoice.card.cvv,
+        expiryMonth: invoice.card.expiryMonth,
+        expiryYear: invoice.card.expiryYear,
+        cardholderName: invoice.card.cardholderName,
+        cardLastDigits: invoice.card.cardLastDigits,
+      },
     };
   }
 
@@ -22,7 +30,12 @@ export class InvoiceMapper {
       status: invoice.status,
       description: invoice.description,
       paymentType: invoice.paymentType,
-      cardLastDigits: invoice.cardLastDigits,
+      number: invoice.card.number,
+      cvv: invoice.card.cvv,
+      expiryMonth: invoice.card.expiryMonth,
+      expiryYear: invoice.card.expiryYear,
+      cardholderName: invoice.card.cardholderName,
+      cardLastDigits: invoice.card.cardLastDigits,
     };
   }
 }

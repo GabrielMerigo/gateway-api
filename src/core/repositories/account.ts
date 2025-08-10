@@ -14,4 +14,5 @@ export abstract class AccountRepository {
     account: Pick<Account, 'id' | 'balance'>,
   ): Promise<void>;
   abstract findAll(): Promise<Account[]>;
+  abstract findByEmail(email: string): Promise<Account | null>;
 }

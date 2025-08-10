@@ -19,9 +19,20 @@ export class CreateAccountUseCase {
   ) {}
 
   async execute(data: CreateAccountParams): Promise<Account | void> {
-    const account = await this.accountRepository.findByApiKey(data.apiKey);
+    const accountExists = await this.accountRepository.findByEmail(data.email);
 
-    if (account) {
+    if (accountExists) {
+      return this.exception.conflict({
+        message: ErrorMessages[ExceptionCode.ACCOUNT_ALREADY_EXISTS],
+        code: ExceptionCode.ACCOUNT_ALREADY_EXISTS,
+      });
+    }
+
+    const accountExistsByApiKey = await this.accountRepository.findByApiKey(
+      data.apiKey,
+    );
+
+    if (accountExistsByApiKey) {
       return this.exception.conflict({
         message: ErrorMessages[ExceptionCode.DUPLICATED_API_KEY],
         code: ExceptionCode.DUPLICATED_API_KEY,

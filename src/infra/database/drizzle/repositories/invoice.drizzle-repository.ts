@@ -24,7 +24,15 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
   async create(
     invoice: Omit<Invoice, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<void> {
-    await this.db.insert(invoicesTable).values(invoice);
+    await this.db.insert(invoicesTable).values({
+      ...invoice,
+      number: invoice.card.number,
+      cvv: invoice.card.cvv,
+      expiryMonth: invoice.card.expiryMonth,
+      expiryYear: invoice.card.expiryYear,
+      cardholderName: invoice.card.cardholderName,
+      cardLastDigits: invoice.card.cardLastDigits,
+    });
   }
 
   async findById(id: string): Promise<Invoice | null> {
@@ -37,7 +45,14 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
           ...result,
           paymentType: result.paymentType as InvoicePaymentType,
           status: result.status as InvoiceStatus,
-          cardLastDigits: result.cardLastDigits as string | undefined,
+          card: {
+            number: result.number,
+            cvv: result.cvv,
+            expiryMonth: result.expiryMonth,
+            expiryYear: result.expiryYear,
+            cardholderName: result.cardholderName,
+            cardLastDigits: result.cardLastDigits as string,
+          },
         })
       : null;
   }
@@ -52,7 +67,14 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
         ...invoice,
         paymentType: invoice.paymentType as InvoicePaymentType,
         status: invoice.status as InvoiceStatus,
-        cardLastDigits: invoice.cardLastDigits as string | undefined,
+        card: {
+          number: invoice.number,
+          cvv: invoice.cvv,
+          expiryMonth: invoice.expiryMonth,
+          expiryYear: invoice.expiryYear,
+          cardholderName: invoice.cardholderName,
+          cardLastDigits: invoice.cardLastDigits as string,
+        },
       }),
     );
   }

@@ -16,9 +16,9 @@ export interface Invoice {
   status: InvoiceStatus;
   description: string;
   paymentType: InvoicePaymentType;
-  cardLastDigits?: string;
   createdAt: Date;
   updatedAt: Date;
+  card: CreditCard;
 }
 
 export type CreditCard = {
@@ -27,4 +27,5 @@ export type CreditCard = {
   expiryMonth: number;
   expiryYear: number;
   cardholderName: string;
+  cardLastDigits: string;
 };

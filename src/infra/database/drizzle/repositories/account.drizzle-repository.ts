@@ -80,6 +80,14 @@ export class AccountDrizzleRepository implements AccountRepository {
     });
   }
 
+  async findByEmail(email: string): Promise<Account | null> {
+    const result = await this.db.query.accountsTable.findFirst({
+      where: eq(accountsTable.email, email),
+    });
+
+    return result ? AccountMapper.toEntity(result) : null;
+  }
+
   async delete(id: string): Promise<void> {
     await this.db.delete(accountsTable).where(eq(accountsTable.id, id));
   }

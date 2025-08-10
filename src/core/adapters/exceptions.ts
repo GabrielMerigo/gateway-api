@@ -7,6 +7,9 @@ export enum ExceptionCode {
 
   // Account
   INVALID_BALANCE = '001_INVALID_BALANCE',
+  INSUFFICIENT_BALANCE = '002_INSUFFICIENT_BALANCE',
+  ACCOUNT_NOT_FOUND = '003_ACCOUNT_NOT_FOUND',
+  ACCOUNT_ALREADY_EXISTS = '004_ACCOUNT_ALREADY_EXISTS',
 }
 
 export const ErrorMessages = {
@@ -18,4 +21,8 @@ export const ErrorMessages = {
 
   // Account
   [ExceptionCode.INVALID_BALANCE]: 'Saldo inválido',
+  [ExceptionCode.INSUFFICIENT_BALANCE]:
+    'Saldo insuficiente para pagar a fatura',
+  [ExceptionCode.ACCOUNT_NOT_FOUND]: 'Conta não encontrada',
+  [ExceptionCode.ACCOUNT_ALREADY_EXISTS]: 'Conta já existe',
 };
