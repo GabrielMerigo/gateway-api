@@ -5,8 +5,9 @@ export enum InvoiceStatus {
 }
 
 export enum InvoicePaymentType {
-  CREDIT_CARD = 'CREDIT_CARD',
   PIX = 'PIX',
+  CREDIT_CARD = 'CARTÃO',
+  BOLETO = 'BOLETO',
 }
 
 export interface Invoice {
@@ -14,16 +15,14 @@ export interface Invoice {
   accountId: string;
   amount: number;
   status: InvoiceStatus;
-  description: string;
+  description?: string;
   paymentType: InvoicePaymentType;
   createdAt: Date;
   updatedAt: Date;
-  card: CreditCard;
+  card?: CreditCard;
 }
 
 export type CreditCard = {
-  number: string;
-  cvv: string;
   expiryMonth: number;
   expiryYear: number;
   cardholderName: string;

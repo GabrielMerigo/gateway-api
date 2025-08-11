@@ -13,12 +13,10 @@ export class InvoiceMapper {
       createdAt: invoice.createdAt,
       updatedAt: invoice.updatedAt,
       card: {
-        number: invoice.card.number,
-        cvv: invoice.card.cvv,
-        expiryMonth: invoice.card.expiryMonth,
-        expiryYear: invoice.card.expiryYear,
-        cardholderName: invoice.card.cardholderName,
-        cardLastDigits: invoice.card.cardLastDigits,
+        expiryMonth: invoice.card?.expiryMonth ?? 0,
+        expiryYear: invoice.card?.expiryYear ?? 0,
+        cardholderName: invoice.card?.cardholderName ?? '',
+        cardLastDigits: invoice.card?.cardLastDigits ?? '',
       },
     };
   }
@@ -30,12 +28,10 @@ export class InvoiceMapper {
       status: invoice.status,
       description: invoice.description,
       paymentType: invoice.paymentType,
-      number: invoice.card.number,
-      cvv: invoice.card.cvv,
-      expiryMonth: invoice.card.expiryMonth,
-      expiryYear: invoice.card.expiryYear,
-      cardholderName: invoice.card.cardholderName,
-      cardLastDigits: invoice.card.cardLastDigits,
+      expiryMonth: invoice.card?.expiryMonth,
+      expiryYear: invoice.card?.expiryYear,
+      cardholderName: invoice.card?.cardholderName,
+      cardLastDigits: invoice.card?.cardLastDigits,
     };
   }
 }

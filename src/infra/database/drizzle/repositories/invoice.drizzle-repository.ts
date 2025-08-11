@@ -33,12 +33,10 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
   ): Promise<void> {
     await this.db.insert(invoicesTable).values({
       ...invoice,
-      number: invoice.card.number,
-      cvv: invoice.card.cvv,
-      expiryMonth: invoice.card.expiryMonth,
-      expiryYear: invoice.card.expiryYear,
-      cardholderName: invoice.card.cardholderName,
-      cardLastDigits: invoice.card.cardLastDigits,
+      expiryMonth: invoice.card?.expiryMonth,
+      expiryYear: invoice.card?.expiryYear,
+      cardholderName: invoice.card?.cardholderName,
+      cardLastDigits: invoice.card?.cardLastDigits,
     });
   }
 
@@ -52,13 +50,12 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
           ...result,
           paymentType: result.paymentType as InvoicePaymentType,
           status: result.status as InvoiceStatus,
+          description: result.description ?? '',
           card: {
-            number: result.number,
-            cvv: result.cvv,
-            expiryMonth: result.expiryMonth,
-            expiryYear: result.expiryYear,
-            cardholderName: result.cardholderName,
-            cardLastDigits: result.cardLastDigits as string,
+            expiryMonth: result.expiryMonth ?? 0,
+            expiryYear: result.expiryYear ?? 0,
+            cardholderName: result.cardholderName ?? '',
+            cardLastDigits: result.cardLastDigits ?? '',
           },
         })
       : null;
@@ -74,13 +71,12 @@ export class InvoiceDrizzleRepository implements InvoiceRepository {
         ...invoice,
         paymentType: invoice.paymentType as InvoicePaymentType,
         status: invoice.status as InvoiceStatus,
+        description: invoice.description ?? '',
         card: {
-          number: invoice.number,
-          cvv: invoice.cvv,
-          expiryMonth: invoice.expiryMonth,
-          expiryYear: invoice.expiryYear,
-          cardholderName: invoice.cardholderName,
-          cardLastDigits: invoice.cardLastDigits as string,
+          expiryMonth: invoice.expiryMonth ?? 0,
+          expiryYear: invoice.expiryYear ?? 0,
+          cardholderName: invoice.cardholderName ?? '',
+          cardLastDigits: invoice.cardLastDigits ?? '',
         },
       }),
     );

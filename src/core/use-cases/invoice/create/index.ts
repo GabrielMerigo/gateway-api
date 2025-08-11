@@ -50,12 +50,10 @@ export class CreateInvoiceUseCase {
       paymentType: data.paymentType,
       status: InvoiceStatus.PENDING,
       card: {
-        number: data.card.number,
-        cvv: data.card.cvv,
         expiryMonth: data.card.expiryMonth,
         expiryYear: data.card.expiryYear,
         cardholderName: data.card.cardholderName,
-        cardLastDigits: data.card.number.slice(-4),
+        cardLastDigits: data.card.cardLastDigits,
       },
     });
   }

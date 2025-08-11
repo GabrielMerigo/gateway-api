@@ -16,16 +16,14 @@ export const invoicesTable = pgTable('invoices', {
   accountId: uuid().notNull(),
   amount: integer().notNull(),
   status: varchar({ length: 255 }).notNull().default('PENDING'),
-  description: varchar({ length: 255 }).notNull(),
+  description: varchar({ length: 255 }),
   paymentType: varchar({ length: 255 }).notNull().default('PIX'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
   // Card details
-  number: varchar({ length: 255 }).notNull(),
-  cvv: varchar({ length: 255 }).notNull(),
-  expiryMonth: integer().notNull(),
-  expiryYear: integer().notNull(),
-  cardholderName: varchar({ length: 255 }).notNull(),
+  expiryMonth: integer(),
+  expiryYear: integer(),
+  cardholderName: varchar({ length: 255 }),
   cardLastDigits: varchar({ length: 255 }),
 });

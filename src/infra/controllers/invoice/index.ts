@@ -3,6 +3,7 @@ import { CreateInvoiceDto } from './dtos/create';
 import { CreateInvoiceUseCase } from '@core/use-cases/invoice/create';
 import { Invoice } from '@core/entities/invoice';
 import { UpdateInvoiceStatusDto } from './dtos/update-status';
+import { UpdateInvoiceStatusUseCase } from '@core/use-cases/invoice/update-status';
 
 @Controller('invoice')
 export class InvoiceController {
@@ -19,8 +20,8 @@ export class InvoiceController {
   @Patch(':id/status')
   async updateInvoiceStatus(
     @Param('id') id: string,
-    @Body() data: UpdateInvoiceStatusDto,
+    @Body() { status }: UpdateInvoiceStatusDto,
   ): Promise<Invoice | void> {
-    return await this.updateInvoiceStatusUseCase.execute(id, data);
+    return await this.updateInvoiceStatusUseCase.execute(id, status);
   }
 }
