@@ -90,3 +90,7 @@ pnpm migrate
 
 # 6. Inicie o ambiente de desenvolvimento
 pnpm start:dev
+
+
+---
+- [] Verificar o API Key
