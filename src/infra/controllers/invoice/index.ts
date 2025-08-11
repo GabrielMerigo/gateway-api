@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Param, Patch, Post } from '@nestjs/common';
 import { CreateInvoiceDto } from './dtos/create';
 import { CreateInvoiceUseCase } from '@core/use-cases/invoice/create';
 import { Invoice } from '@core/entities/invoice';
