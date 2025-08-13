@@ -13,6 +13,6 @@ export abstract class AccountRepository {
   abstract updateBalance(
     account: Pick<Account, 'id' | 'balance'>,
   ): Promise<void>;
-  abstract findAll(apiKey: string): Promise<Account[]>;
+  abstract findAll(): Promise<Account[]>;
   abstract findByEmail(email: string): Promise<Account | null>;
 }

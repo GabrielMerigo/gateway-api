@@ -18,9 +18,8 @@ export class AccountController {
   ) {}
 
   @Get()
-  @RequireApiKey()
-  async getAccounts(@CurrentAccount() account: Account): Promise<Account[]> {
-    return await this.findAllAccountsUseCase.execute(account);
+  async getAccounts(): Promise<Account[]> {
+    return await this.findAllAccountsUseCase.execute();
   }
 
   @Post()
