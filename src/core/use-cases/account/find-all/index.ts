@@ -6,7 +6,7 @@ import { Account } from '@core/entities/account';
 export class FindAllAccountsUseCase {
   constructor(private readonly accountRepository: AccountRepository) {}
 
-  async execute(): Promise<Account[]> {
-    return await this.accountRepository.findAll();
+  async execute(account: Account): Promise<Account[]> {
+    return await this.accountRepository.findAll(account.apiKey);
   }
 }

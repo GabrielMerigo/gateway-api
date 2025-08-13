@@ -1,12 +1,12 @@
 import { ExceptionsAdapter } from '@core/adapters';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
+import { Account } from '@core/entities/account';
 import {
   CreditCard,
   Invoice,
   InvoicePaymentType,
   InvoiceStatus,
 } from '@core/entities/invoice';
-import { AccountRepository } from '@core/repositories/account';
 import { InvoiceRepository } from '@core/repositories/invoice';
 import { Injectable } from '@nestjs/common';
 
@@ -22,20 +22,13 @@ interface CreateInvoiceParams {
 export class CreateInvoiceUseCase {
   constructor(
     private readonly invoiceRepository: InvoiceRepository,
-    private readonly accountRepository: AccountRepository,
     private readonly exception: ExceptionsAdapter,
   ) {}
 
-  async execute(data: CreateInvoiceParams): Promise<Invoice | void> {
-    const account = await this.accountRepository.findById(data.accountId);
-
-    if (!account) {
-      return this.exception.notFound({
-        message: ErrorMessages[ExceptionCode.ACCOUNT_NOT_FOUND],
-        code: ExceptionCode.ACCOUNT_NOT_FOUND,
-      });
-    }
-
+  async execute(
+    data: CreateInvoiceParams,
+    account: Account,
+  ): Promise<Invoice | void> {
     if (account.balance < data.amount) {
       return this.exception.badRequest({
         message: ErrorMessages[ExceptionCode.INSUFFICIENT_BALANCE],

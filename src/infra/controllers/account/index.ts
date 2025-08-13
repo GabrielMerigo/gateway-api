@@ -1,47 +1,26 @@
 import { FindAllAccountsUseCase } from '@core/use-cases/account/find-all';
-import { FindByIdAccountUseCase } from '@core/use-cases/account/find-by-id';
 import { CreateAccountUseCase } from '@core/use-cases/account/create';
-import { FindByApiKeyAccountUseCase } from '@core/use-cases/account/find-by-api-key';
 
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Patch,
-  Headers,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch } from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create';
 import { Account } from '@core/entities/account';
 import { UpdateBalanceDto } from './dtos/update-balance';
 import { UpdateBalanceUseCase } from '@core/use-cases/account/update-balance';
+import { CurrentAccount } from '@shared/decorators/current-account.decorator';
+import { RequireApiKey } from '@shared/decorators/require-api-key.decorator';
 
 @Controller('account')
 export class AccountController {
   constructor(
-    private readonly findByIdAccountUseCase: FindByIdAccountUseCase,
     private readonly findAllAccountsUseCase: FindAllAccountsUseCase,
     private readonly createAccountUseCase: CreateAccountUseCase,
-    private readonly findByApiKeyAccountUseCase: FindByApiKeyAccountUseCase,
     private readonly updateBalanceUseCase: UpdateBalanceUseCase,
   ) {}
 
-  @Get(':id')
-  async getAccountById(@Param('id') id: string) {
-    return await this.findByIdAccountUseCase.execute(id);
-  }
-
   @Get()
-  async getAccountByApiKey(
-    @Headers('api-key') apiKey: string,
-  ): Promise<Account | void> {
-    return await this.findByApiKeyAccountUseCase.execute(apiKey);
-  }
-
-  @Get()
-  async getAccounts(): Promise<Account[]> {
-    return await this.findAllAccountsUseCase.execute();
+  @RequireApiKey()
+  async getAccounts(@CurrentAccount() account: Account): Promise<Account[]> {
+    return await this.findAllAccountsUseCase.execute(account);
   }
 
   @Post()
@@ -50,9 +29,13 @@ export class AccountController {
   }
 
   @Patch(':id/balance')
-  async updateBalance(@Param('id') id: string, @Body() data: UpdateBalanceDto) {
+  @RequireApiKey()
+  async updateBalance(
+    @Body() data: UpdateBalanceDto,
+    @CurrentAccount() account: Account,
+  ) {
     return await this.updateBalanceUseCase.execute({
-      id,
+      id: account.id,
       balance: data.balance,
     });
   }

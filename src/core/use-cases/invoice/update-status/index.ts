@@ -1,5 +1,6 @@
 import { ExceptionsAdapter } from '@core/adapters';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
+import { Account } from '@core/entities/account';
 import { InvoiceStatus } from '@core/entities/invoice';
 import { AccountRepository } from '@core/repositories/account';
 import { InvoiceRepository } from '@core/repositories/invoice';
@@ -13,7 +14,11 @@ export class UpdateInvoiceStatusUseCase {
     private readonly exception: ExceptionsAdapter,
   ) {}
 
-  async execute(id: string, status: InvoiceStatus): Promise<void> {
+  async execute(
+    id: string,
+    status: InvoiceStatus,
+    account: Account,
+  ): Promise<void> {
     const invoice = await this.invoiceRepository.findById(id);
 
     if (!invoice) {
@@ -27,15 +32,6 @@ export class UpdateInvoiceStatusUseCase {
       return this.exception.conflict({
         message: ErrorMessages[ExceptionCode.INVOICE_ALREADY_PAID],
         code: ExceptionCode.INVOICE_ALREADY_PAID,
-      });
-    }
-
-    const account = await this.accountRepository.findById(invoice.accountId);
-
-    if (!account) {
-      return this.exception.notFound({
-        message: ErrorMessages[ExceptionCode.ACCOUNT_NOT_FOUND],
-        code: ExceptionCode.ACCOUNT_NOT_FOUND,
       });
     }
 

@@ -12,15 +12,6 @@ export class UpdateBalanceUseCase {
   ) {}
 
   async execute(account: Pick<Account, 'id' | 'balance'>): Promise<void> {
-    const accountExists = await this.accountRepository.findById(account.id);
-
-    if (!accountExists) {
-      return this.exception.notFound({
-        message: ErrorMessages[ExceptionCode.NOT_FOUND],
-        code: ExceptionCode.NOT_FOUND,
-      });
-    }
-
     if (account.balance < 0) {
       return this.exception.badRequest({
         message: ErrorMessages[ExceptionCode.INVALID_BALANCE],
