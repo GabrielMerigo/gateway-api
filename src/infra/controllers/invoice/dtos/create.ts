@@ -93,14 +93,6 @@ export class CreateInvoiceDto {
   cardLastDigits: string;
 
   @ApiProperty({
-    description: 'The account id of the invoice',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-  })
-  @IsString()
-  @IsNotEmpty()
-  accountId: string;
-
-  @ApiProperty({
     description: 'The card details of the invoice',
     example: {
       number: '1234567890123456',

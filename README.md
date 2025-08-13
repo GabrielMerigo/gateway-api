@@ -90,3 +90,6 @@ pnpm migrate
 
 # 6. Inicie o ambiente de desenvolvimento
 pnpm start:dev
+
+---
+[] - Fazer filtro para realizar apenas operações especificas das API Keys dos clientes

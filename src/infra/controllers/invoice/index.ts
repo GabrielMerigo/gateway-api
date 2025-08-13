@@ -23,7 +23,13 @@ export class InvoiceController {
     @Body() data: CreateInvoiceDto,
     @CurrentAccount() account: Account,
   ): Promise<Invoice | void> {
-    return await this.createInvoiceUseCase.execute(data, account);
+    return await this.createInvoiceUseCase.execute(
+      {
+        ...data,
+        accountId: account.id,
+      },
+      account,
+    );
   }
 
   @Get(':id')
