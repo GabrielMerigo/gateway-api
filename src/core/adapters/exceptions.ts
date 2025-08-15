@@ -4,7 +4,7 @@ export enum ExceptionCode {
   UNAUTHORIZED_ACCESS = '004_UNAUTHORIZED_ACCESS',
   NEED_TO_PASS_API_KEY = '005_NEED_TO_PASS_API_KEY',
 
-  // Account
+  // User
   INVALID_BALANCE = '001_INVALID_BALANCE',
   INSUFFICIENT_BALANCE = '002_INSUFFICIENT_BALANCE',
   ACCOUNT_NOT_FOUND = '003_ACCOUNT_NOT_FOUND',
@@ -21,7 +21,7 @@ export const ErrorMessages = {
   [ExceptionCode.UNAUTHORIZED_ACCESS]: 'Acesso não autorizado',
   [ExceptionCode.NEED_TO_PASS_API_KEY]: 'É necessário passar a API Key',
 
-  // Account
+  // User
   [ExceptionCode.INVALID_BALANCE]: 'Saldo inválido',
   [ExceptionCode.INSUFFICIENT_BALANCE]:
     'Saldo insuficiente para pagar a fatura',

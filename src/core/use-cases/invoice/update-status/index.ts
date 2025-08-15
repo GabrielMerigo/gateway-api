@@ -1,8 +1,8 @@
 import { ExceptionsAdapter } from '@core/adapters';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
-import { Account } from '@core/entities/account';
+import { User } from '@core/entities/user';
 import { InvoiceStatus } from '@core/entities/invoice';
-import { AccountRepository } from '@core/repositories/account';
+import { UserRepository } from '@core/repositories/user';
 import { InvoiceRepository } from '@core/repositories/invoice';
 import { Injectable } from '@nestjs/common';
 
@@ -10,14 +10,14 @@ import { Injectable } from '@nestjs/common';
 export class UpdateInvoiceStatusUseCase {
   constructor(
     private readonly invoiceRepository: InvoiceRepository,
-    private readonly accountRepository: AccountRepository,
+    private readonly accountRepository: UserRepository,
     private readonly exception: ExceptionsAdapter,
   ) {}
 
   async execute(
     id: string,
     status: InvoiceStatus,
-    account: Account,
+    user: User,
   ): Promise<void> {
     const invoice = await this.invoiceRepository.findById(id);
 
@@ -36,17 +36,17 @@ export class UpdateInvoiceStatusUseCase {
     }
 
     if (status === InvoiceStatus.PAID) {
-      if (account.balance < invoice.amount) {
+      if (user.balance < invoice.amount) {
         return this.exception.conflict({
           message: ErrorMessages[ExceptionCode.INSUFFICIENT_BALANCE],
           code: ExceptionCode.INSUFFICIENT_BALANCE,
         });
       }
 
-      account.balance -= invoice.amount;
+      user.balance -= invoice.amount;
       await this.accountRepository.updateBalance({
-        id: account.id,
-        balance: account.balance,
+        id: user.id,
+        balance: user.balance,
       });
     }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AccountRepository } from '@core/repositories/account';
-import { Account } from '@core/entities/account';
+import { UserRepository } from '@core/repositories/user';
+import { User } from '@core/entities/user';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
 import { ExceptionsAdapter } from '@core/adapters';
 
@@ -14,11 +14,11 @@ interface CreateAccountParams {
 @Injectable()
 export class CreateAccountUseCase {
   constructor(
-    private readonly accountRepository: AccountRepository,
+    private readonly accountRepository: UserRepository,
     private readonly exception: ExceptionsAdapter,
   ) {}
 
-  async execute(data: CreateAccountParams): Promise<Account | void> {
+  async execute(data: CreateAccountParams): Promise<User | void> {
     const accountExists = await this.accountRepository.findByEmail(data.email);
 
     if (accountExists) {

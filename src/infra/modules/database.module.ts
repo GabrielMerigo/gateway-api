@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
 import { DatabaseService } from '@infra/database/database.service';
-import { AccountDrizzleRepository } from '@infra/database/drizzle/repositories/account.drizzle-repository';
-import { AccountRepository } from '@core/repositories/account';
+import { UserRepository } from '@core/repositories/user';
 import { InvoiceRepository } from '@core/repositories/invoice';
 import { InvoiceDrizzleRepository } from '@infra/database/drizzle/repositories/invoice.drizzle-repository';
+import { UserDrizzleRepository } from '@infra/database/drizzle/repositories/account.drizzle-repository';
 
 @Module({
   providers: [
     DatabaseService,
     {
-      useClass: AccountDrizzleRepository,
-      provide: AccountRepository,
+      useClass: UserDrizzleRepository,
+      provide: UserRepository,
     },
     {
       useClass: InvoiceDrizzleRepository,
       provide: InvoiceRepository,
     },
   ],
-  exports: [DatabaseService, AccountRepository, InvoiceRepository],
+  exports: [DatabaseService, InvoiceRepository, UserRepository],
 })
 export class DatabaseModule {}

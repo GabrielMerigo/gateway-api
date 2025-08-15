@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from './health.module';
-import { AccountModule } from './account.module';
 import { DatabaseModule } from './database.module';
 import { InvoiceModule } from './invoice.module';
+import { UserModule } from './user.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { InvoiceModule } from './invoice.module';
     }),
     DatabaseModule,
     HealthModule,
-    AccountModule,
+    UserModule,
     InvoiceModule,
   ],
 })

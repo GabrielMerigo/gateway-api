@@ -5,9 +5,9 @@ import { Invoice } from '@core/entities/invoice';
 import { UpdateInvoiceStatusDto } from './dtos/update-status';
 import { UpdateInvoiceStatusUseCase } from '@core/use-cases/invoice/update-status';
 import { FindInvoiceByIdUseCase } from '@core/use-cases/invoice/find-by-id';
-import { Account } from '@core/entities/account';
+import { User } from '@core/entities/user';
 import { RequireApiKey } from '@shared/decorators/require-api-key.decorator';
-import { CurrentAccount } from '@shared/decorators/current-account.decorator';
+import { CurrentUser } from '@shared/decorators/current-user.decorator';
 
 @Controller('invoice')
 export class InvoiceController {
@@ -21,14 +21,14 @@ export class InvoiceController {
   @RequireApiKey()
   async createInvoice(
     @Body() data: CreateInvoiceDto,
-    @CurrentAccount() account: Account,
+    @CurrentUser() user: User,
   ): Promise<Invoice | void> {
     return await this.createInvoiceUseCase.execute(
       {
         ...data,
-        accountId: account.id,
+        accountId: user.id,
       },
-      account,
+      user,
     );
   }
 
@@ -43,8 +43,8 @@ export class InvoiceController {
   async updateInvoiceStatus(
     @Param('id') id: string,
     @Body() { status }: UpdateInvoiceStatusDto,
-    @CurrentAccount() account: Account,
+    @CurrentUser() user: User,
   ): Promise<Invoice | void> {
-    return await this.updateInvoiceStatusUseCase.execute(id, status, account);
+    return await this.updateInvoiceStatusUseCase.execute(id, status, user);
   }
 }

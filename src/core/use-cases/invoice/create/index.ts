@@ -1,6 +1,6 @@
 import { ExceptionsAdapter } from '@core/adapters';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
-import { Account } from '@core/entities/account';
+import { User } from '@core/entities/user';
 import {
   CreditCard,
   Invoice,
@@ -27,9 +27,9 @@ export class CreateInvoiceUseCase {
 
   async execute(
     data: CreateInvoiceParams,
-    account: Account,
+    user: User,
   ): Promise<Invoice | void> {
-    if (account.balance < data.amount) {
+    if (user.balance < data.amount) {
       return this.exception.badRequest({
         message: ErrorMessages[ExceptionCode.INSUFFICIENT_BALANCE],
         code: ExceptionCode.INSUFFICIENT_BALANCE,

@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { FindByApiKeyAccountUseCase } from '@core/use-cases/account/find-by-api-key';
+import { FindByApiKeyAccountUseCase } from '@core/use-cases/user/find-by-api-key';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
@@ -21,14 +21,14 @@ export class ApiKeyGuard implements CanActivate {
       throw new UnauthorizedException('API key is required');
     }
 
-    const account = await this.findByApiKeyUseCase.execute({ apiKey });
+    const user = await this.findByApiKeyUseCase.execute({ apiKey });
 
-    if (!account) {
+    if (!user) {
       throw new UnauthorizedException('Invalid API key');
     }
 
     // Adiciona a conta ao request para uso posterior
-    request['account'] = account;
+    request['user'] = user;
 
     return true;
   }
