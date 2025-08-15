@@ -3,7 +3,7 @@ import { DatabaseService } from '@infra/database/database.service';
 import { UserRepository } from '@core/repositories/user';
 import { InvoiceRepository } from '@core/repositories/invoice';
 import { InvoiceDrizzleRepository } from '@infra/database/drizzle/repositories/invoice.drizzle-repository';
-import { UserDrizzleRepository } from '@infra/database/drizzle/repositories/account.drizzle-repository';
+import { UserDrizzleRepository } from '@infra/database/drizzle/repositories/user.drizzle-repository';
 
 @Module({
   providers: [

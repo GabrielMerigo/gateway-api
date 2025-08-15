@@ -1,4 +1,4 @@
-import { accountsTable } from '../schema';
+import { usersTable } from '../schema';
 import { eq, sql } from 'drizzle-orm';
 import { User } from '@core/entities/user';
 import { UserRepository } from '@core/repositories/user';
@@ -17,21 +17,21 @@ export class UserDrizzleRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<User | null> {
-    const result = await this.db.query.accountsTable.findFirst({
-      where: eq(accountsTable.id, id),
+    const result = await this.db.query.usersTable.findFirst({
+      where: eq(usersTable.id, id),
     });
 
     return result ? UserMapper.toEntity(result) : null;
   }
 
   async findAll(): Promise<User[]> {
-    const result = await this.db.query.accountsTable.findMany();
+    const result = await this.db.query.usersTable.findMany();
     return result.map((user) => UserMapper.toEntity(user));
   }
 
   async findByApiKey(apiKey: string): Promise<User | null> {
-    const result = await this.db.query.accountsTable.findFirst({
-      where: eq(accountsTable.apiKey, apiKey),
+    const result = await this.db.query.usersTable.findFirst({
+      where: eq(usersTable.apiKey, apiKey),
     });
 
     return result ? UserMapper.toEntity(result) : null;
@@ -41,7 +41,7 @@ export class UserDrizzleRepository implements UserRepository {
     user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<User> {
     const result = await this.db
-      .insert(accountsTable)
+      .insert(usersTable)
       .values({
         name: user.name,
         email: user.email,
@@ -57,14 +57,14 @@ export class UserDrizzleRepository implements UserRepository {
     user: Omit<User, 'balance' | 'createdAt' | 'updatedAt'>,
   ): Promise<void> {
     await this.db
-      .update(accountsTable)
+      .update(usersTable)
       .set({
         name: user.name,
         apiKey: user.apiKey,
         email: user.email,
         updatedAt: new Date(),
       })
-      .where(eq(accountsTable.id, user.id));
+      .where(eq(usersTable.id, user.id));
   }
 
   async updateBalance(user: Pick<User, 'id' | 'balance'>): Promise<void> {
@@ -74,21 +74,21 @@ export class UserDrizzleRepository implements UserRepository {
       );
 
       await tx
-        .update(accountsTable)
+        .update(usersTable)
         .set({ balance: user.balance })
-        .where(eq(accountsTable.id, user.id));
+        .where(eq(usersTable.id, user.id));
     });
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const result = await this.db.query.accountsTable.findFirst({
-      where: eq(accountsTable.email, email),
+    const result = await this.db.query.usersTable.findFirst({
+      where: eq(usersTable.email, email),
     });
 
     return result ? UserMapper.toEntity(result) : null;
   }
 
   async delete(id: string): Promise<void> {
-    await this.db.delete(accountsTable).where(eq(accountsTable.id, id));
+    await this.db.delete(usersTable).where(eq(usersTable.id, id));
   }
 }

@@ -1,8 +1,8 @@
 import { User } from '@core/entities/user';
-import { accountsTable } from '../../schema';
+import { usersTable } from '../../schema';
 
 export class UserMapper {
-  static toEntity(result: typeof accountsTable.$inferSelect): User {
+  static toEntity(result: typeof usersTable.$inferSelect): User {
     return {
       id: result.id.toString(),
       name: result.name,
@@ -14,7 +14,7 @@ export class UserMapper {
     };
   }
 
-  static toDatabase(user: User): typeof accountsTable.$inferInsert {
+  static toDatabase(user: User): typeof usersTable.$inferInsert {
     return {
       name: user.name,
       email: user.email,
