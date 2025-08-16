@@ -13,6 +13,9 @@ export enum ExceptionCode {
   // Invoice
   INVOICE_NOT_FOUND = '005_INVOICE_NOT_FOUND',
   INVOICE_ALREADY_PAID = '006_INVOICE_ALREADY_PAID',
+
+  // Auth
+  CREDENTIALS_INVALID = '007_CREDENTIALS_INVALID',
 }
 
 export const ErrorMessages = {
@@ -31,4 +34,7 @@ export const ErrorMessages = {
   // Invoice
   [ExceptionCode.INVOICE_NOT_FOUND]: 'Fatura não encontrada',
   [ExceptionCode.INVOICE_ALREADY_PAID]: 'Fatura já foi paga',
+
+  // Auth
+  [ExceptionCode.CREDENTIALS_INVALID]: 'Credenciais inválidas',
 };

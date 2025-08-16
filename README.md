@@ -92,4 +92,7 @@ pnpm migrate
 pnpm start:dev
 
 ---
-[] - Fazer filtro para realizar apenas operações especificas das API Keys dos clientes
+Todo:
+- [] Realizar Login
+- [] Realizar Sign Up
+- [] Realizar integração com TOTP (Authenticator)
