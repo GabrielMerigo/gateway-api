@@ -1,4 +1,10 @@
-import { integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  integer,
+  pgTable,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/pg-core';
 import { uuid } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
@@ -7,6 +13,8 @@ export const usersTable = pgTable('users', {
   email: varchar({ length: 255 }).notNull().unique(),
   apiKey: varchar({ length: 255 }).notNull().unique(),
   balance: integer().notNull(),
+  isTotpEnabled: boolean().default(false).notNull(),
+  password: varchar({ length: 255 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

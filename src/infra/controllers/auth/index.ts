@@ -1,6 +1,5 @@
 import { TokenAdapter } from '@core/adapters/token';
-import { Inject, Injectable } from '@nestjs/common';
-import { GetUserAuthStepUseCase } from '../get-user-auth-step';
+import { Injectable, Inject } from '@nestjs/common';
 import { UserRepository } from '@core/repositories/user';
 import { ExceptionsAdapter } from '@core/adapters';
 import { ErrorMessages, ExceptionCode } from '@core/adapters/exceptions';
@@ -13,7 +12,6 @@ interface LoginParams {
 }
 
 interface LoginResponse {
-  authStep: number;
   accessToken: string;
 }
 
@@ -22,10 +20,11 @@ export class LoginUseCase {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly cryptographyAdapter: CryptographyAdapter,
-    @Inject(TOKEN_PROVIDERS['2FA_TOKEN_SERVICE'])
+    @Inject(TOKEN_PROVIDERS.TOKEN_SERVICE)
     private readonly tokenService: TokenAdapter,
+    @Inject(TOKEN_PROVIDERS['2FA_TOKEN_SERVICE'])
+    private readonly twoFactorTokenService: TokenAdapter,
     private readonly exception: ExceptionsAdapter,
-    private readonly getUserAuthStepUseCase: GetUserAuthStepUseCase,
   ) {}
 
   async execute({
@@ -55,15 +54,22 @@ export class LoginUseCase {
       return;
     }
 
-    const { authStep } = this.getUserAuthStepUseCase.execute({ user });
+    let accessToken: string;
 
-    const temporaryAccessToken = await this.tokenService.generateToken({
-      id: user.id,
-    });
+    if (user.isTotpEnabled) {
+      accessToken = await this.twoFactorTokenService.generateToken({
+        id: user.id,
+        type: 'TEMPORARY',
+      });
+    } else {
+      accessToken = await this.tokenService.generateToken({
+        id: user.id,
+        type: 'PERMANENT',
+      });
+    }
 
     return {
-      authStep,
-      accessToken: temporaryAccessToken,
+      accessToken,
     };
   }
 }

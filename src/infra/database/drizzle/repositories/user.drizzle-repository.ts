@@ -47,6 +47,8 @@ export class UserDrizzleRepository implements UserRepository {
         email: user.email,
         apiKey: user.apiKey,
         balance: user.balance,
+        password: user.password,
+        isTotpEnabled: user.isTotpEnabled,
       })
       .returning();
 

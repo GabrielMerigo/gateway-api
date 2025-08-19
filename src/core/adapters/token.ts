@@ -1,5 +1,6 @@
 export interface TokenPayload {
   id: string;
+  type: 'TEMPORARY' | 'PERMANENT';
 }
 
 export interface GetPayloadFromTokenOutput {

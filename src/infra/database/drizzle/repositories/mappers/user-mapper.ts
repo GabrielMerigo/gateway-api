@@ -11,6 +11,8 @@ export class UserMapper {
       balance: result.balance,
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
+      password: result.password,
+      isTotpEnabled: result.isTotpEnabled,
     };
   }
 
@@ -22,6 +24,8 @@ export class UserMapper {
       balance: user.balance,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      password: user.password,
+      isTotpEnabled: user.isTotpEnabled,
     };
   }
 }

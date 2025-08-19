@@ -1,5 +1,5 @@
 import { FindAllAccountsUseCase } from '@core/use-cases/user/find-all';
-import { CreateAccountUseCase } from '@core/use-cases/user/create';
+import { CreateUserUseCase } from '@core/use-cases/user/create';
 
 import { Body, Controller, Get, Post, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create';
@@ -13,7 +13,7 @@ import { CurrentUser } from '@shared/decorators/current-user.decorator';
 export class UserController {
   constructor(
     private readonly findAllAccountsUseCase: FindAllAccountsUseCase,
-    private readonly createAccountUseCase: CreateAccountUseCase,
+    private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateBalanceUseCase: UpdateBalanceUseCase,
   ) {}
 
@@ -24,7 +24,7 @@ export class UserController {
 
   @Post()
   async createAccount(@Body() data: CreateUserDto) {
-    return await this.createAccountUseCase.execute(data);
+    return await this.createUserUseCase.execute(data);
   }
 
   @Patch(':id/balance')

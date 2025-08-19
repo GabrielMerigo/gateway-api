@@ -33,4 +33,12 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsInt()
   balance: number;
+
+  @ApiProperty({
+    description: 'The password of the user',
+    example: '1234567890',
+  })
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 }
